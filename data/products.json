@@ -1,0 +1,34 @@
+[
+    {
+        "id": "SP001",
+        "name": "Van Cơ Điều Khiển",
+        "brand": "Yoshitake",
+        "catalog": "Valve",
+        "description": "Van cơ điều khiển công nghiệp dùng trong hệ thống hơi.",
+        "image": "https://via.placeholder.com/400x250?text=Valve+1"
+    },
+    {
+        "id": "SP002",
+        "name": "Dầu Nhớt Mobil DTE 26",
+        "brand": "Mobil",
+        "catalog": "Oil",
+        "description": "Dầu thủy lực Mobil hiệu suất cao.",
+        "image": "https://via.placeholder.com/400x250?text=Oil+1"
+    },
+    {
+        "id": "SP003",
+        "name": "Đồng Hồ Áp Suất Wise",
+        "brand": "Wise",
+        "catalog": "Gauge",
+        "description": "Đồng hồ áp suất 0-10 bar dành cho hệ thống công nghiệp.",
+        "image": "https://via.placeholder.com/400x250?text=Gauge+1"
+    },
+    {
+        "id": "SP004",
+        "name": "Cảm Biến Nhiệt PT100",
+        "brand": "Siemens",
+        "catalog": "Sensor",
+        "description": "Cảm biến đo nhiệt độ PT100 chuẩn công nghiệp.",
+        "image": "https://via.placeholder.com/400x250?text=Sensor+1"
+    }
+]
