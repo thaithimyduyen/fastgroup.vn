@@ -1268,10 +1268,12 @@ nav.navbar.bootsnav .navbar-toggle i {
 --------------------------------------*/
 .contact {
     background: #2a2d54;
+    padding-top: 45px;
+    padding-bottom: 15px;
 }
 
 .footer-top {
-    padding: 112px 0 72px;
+    padding-bottom: 10px;
 }
 
 /*.footer-logo*/
@@ -1291,7 +1293,7 @@ nav.navbar.bootsnav .navbar-toggle i {
     font-size: 14px;
     color: #eeeff6;
     max-width: 300px;
-    margin: 40px 0 20px;
+    margin: 0 0 20px;
 }
 
 .footer-contact p {
@@ -1299,10 +1301,16 @@ nav.navbar.bootsnav .navbar-toggle i {
     color: #d1d7e9;
 }
 
+.footer-cert {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
 /*.footer-logo*/
 
 .single-footer-widget {
-    margin-bottom: 40px;
+    margin-bottom: 15px;
 }
 
 .single-footer-widget h2 {
@@ -1388,8 +1396,9 @@ nav.navbar.bootsnav .navbar-toggle i {
 /*hm-foot-email*/
 /*.footer-copyright */
 .footer-copyright {
-    padding: 20px 0 17px;
-    border-top: 1px solid #434859;
+    padding-top: 12px;
+    margin-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .footer-copyright p,
@@ -1418,6 +1427,17 @@ nav.navbar.bootsnav .navbar-toggle i {
 
 .footer-social i:hover {
     opacity: .70;
+}
+
+@media (max-width: 768px) {
+    .footer-cert {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    .footer-logo a {
+        font-size: 18px;
+    }
 }
 
 /*.footer-copyright */
