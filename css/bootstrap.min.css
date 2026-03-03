@@ -619,6 +619,12 @@ progress {
     object-fit: contain;
 }
 
+.img-fluid-client {
+    max-width: 100%;
+    height: 150px;
+    object-fit: contain;
+}
+
 .img-thumbnail {
     padding: .25rem;
     background-color: #fff;
