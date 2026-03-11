@@ -2,60 +2,64 @@
     "use strict";
 
     async function loadPartials() {
-        // Helper: thử lần lượt các path, path nào ok thì dùng
-        async function loadAndInsert(paths, position) {
+
+        async function loadFile(paths) {
             for (const path of paths) {
                 try {
                     const res = await fetch(path);
                     if (res.ok) {
-                        const html = await res.text();
-                        document.body.insertAdjacentHTML(position, html);
-                        return true;
+                        return await res.text();
                     }
-                } catch (e) {
-                    // Bỏ qua lỗi, thử path tiếp theo
-                }
+                } catch (e) { }
             }
-            return false;
+            return "";
         }
 
-        // 1. Load spinner (luôn nằm trên cùng)
-        await loadAndInsert(
-            [
-                "../spinner.html"   // nếu trang nằm trong 1 folder con
-            ],
-            "afterbegin"
-        );
+        try {
 
-        // 2. Load menu (sau spinner, trên nội dung trang)
-        await loadAndInsert(
-            [
-                "../header.html"
-            ],
-            "afterbegin"
-        );
+            // Load spinner trước để hiển thị ngay
+            const spinner = await loadFile([
+                "../spinner.html",
+                "spinner.html"
+            ]);
 
-        await loadAndInsert(
-            [
-                "../footer.html"
-            ],
-            "beforeend"
-        );
-
-        // 3. Ẩn spinner sau một lúc
-        setTimeout(function () {
-            var spinnerEl = document.getElementById("spinner");
-            if (spinnerEl && spinnerEl.classList.contains("show")) {
-                spinnerEl.classList.remove("show");
+            if (spinner) {
+                document.body.insertAdjacentHTML("afterbegin", spinner);
             }
-            var overlay = document.querySelector(".spinner-overlay");
+
+            // Load header + footer song song
+            const [header, footer] = await Promise.all([
+                loadFile(["../header.html", "header.html"]),
+                loadFile(["../footer.html", "footer.html"])
+            ]);
+
+            if (header) {
+                document.body.insertAdjacentHTML("afterbegin", header);
+            }
+
+            if (footer) {
+                document.body.insertAdjacentHTML("beforeend", footer);
+            }
+
+        } catch (err) {
+            console.error("Partial load error:", err);
+        }
+
+        // Ẩn spinner
+        setTimeout(() => {
+            const spinnerEl = document.getElementById("spinner");
+            if (spinnerEl) spinnerEl.classList.remove("show");
+
+            const overlay = document.querySelector(".spinner-overlay");
             if (overlay) overlay.classList.add("d-none");
-        }, 800);
+        }, 400);
     }
+
 
     function setActiveMenu() {
 
         const current = window.location.pathname;
+
         document.querySelectorAll(".navbar-nav .nav-link").forEach(link => {
 
             const href = link.getAttribute("href");
@@ -65,24 +69,27 @@
                 link.classList.add("active");
             }
 
-            if (href.endsWith(current)) {
+            if (current.endsWith(href)) {
                 link.classList.add("active");
             }
+
         });
     }
 
+
     function initUI() {
-        // Initiate the wowjs
+
         new WOW().init();
 
-        // Dropdown on mouse hover
         const $dropdown = $(".dropdown");
         const $dropdownToggle = $(".dropdown-toggle");
         const $dropdownMenu = $(".dropdown-menu");
         const showClass = "show";
 
         $(window).on("load resize", function () {
-            if (this.matchMedia("(min-width: 992px)").matches) {
+
+            if (window.matchMedia("(min-width: 992px)").matches) {
+
                 $dropdown.hover(
                     function () {
                         const $this = $(this);
@@ -97,30 +104,29 @@
                         $this.find($dropdownMenu).removeClass(showClass);
                     }
                 );
+
             } else {
                 $dropdown.off("mouseenter mouseleave");
             }
+
         });
 
-        // Back to top button
+        // Back to top
         $(window).scroll(function () {
+
             if ($(this).scrollTop() > 300) {
                 $('.back-to-top').fadeIn('slow');
+                $('.sticky-top').css('top', '0px');
             } else {
                 $('.back-to-top').fadeOut('slow');
+                $('.sticky-top').css('top', '-100px');
             }
+
         });
+
         $('.back-to-top').click(function () {
             $('html, body').animate({ scrollTop: 0 }, 1500, 'easeInOutExpo');
             return false;
-        });
-
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 300) {
-                $('.sticky-top').css('top', '0px');
-            } else {
-                $('.sticky-top').css('top', '-100px');
-            }
         });
 
         // Header carousel
@@ -137,7 +143,6 @@
             ]
         });
 
-
         // Testimonials carousel
         $(".testimonial-carousel").owlCarousel({
             autoplay: true,
@@ -148,27 +153,23 @@
             loop: true,
             nav: false,
             responsive: {
-                0: {
-                    items: 1
-                },
-                576: {
-                    items: 2
-                },
-                768: {
-                    items: 3
-                },
-                992: {
-                    items: 4   // Desktop hiển thị 4 hình
-                }
+                0: { items: 1 },
+                576: { items: 2 },
+                768: { items: 3 },
+                992: { items: 4 }
             }
         });
-    }
-    $(function () {
-        // Load spinner + menu, xong rồi mới init UI
-        loadPartials().then(() => {
-            initUI();
-            setActiveMenu();
-        });
-    });
-})(jQuery);
 
+    }
+
+
+    $(async function () {
+
+        await loadPartials();   // load header/footer trước
+
+        initUI();               // sau đó init UI
+        setActiveMenu();        // active menu
+
+    });
+
+})(jQuery);
