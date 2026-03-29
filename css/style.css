@@ -107,6 +107,48 @@
     opacity: 1;
 }
 
+.img-equal {
+    width: 100%;
+    height: 400px;
+    /* chỉnh chiều cao bạn muốn */
+    object-fit: cover;
+    /* giữ đẹp, không méo */
+}
+
+.brand-card {
+    border-radius: 12px;
+    transition: 0.3s;
+    background: #fff;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+}
+
+.brand-card ul li a {
+    color: #000;
+    text-decoration: underline;
+    transition: 0.2s;
+}
+
+.brand-card ul li a:hover {
+    color: #ff6b00;
+    /* màu cam của bạn */
+}
+
+.brand-logo-box {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo {
+    max-height: 100px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
 
 /*** Button ***/
 .btn {
